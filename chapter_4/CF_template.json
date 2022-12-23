@@ -1,0 +1,21 @@
+{
+    "AWSTemplateFormatVersion": "2010-09-09",
+    "Resources": {
+        "MyDemoEC2Instance": {
+            "Type": "AWS::EC2::Instance",
+            "Properties": {
+                "InstanceType": "t2.micro",
+                "ImageId": {
+                    "Ref": "AmiId"
+                }
+            }
+        }
+    },
+    "Parameters": {
+        "AmiId": {
+            "Type": "String",
+            "Default": "ami-0ed9277fb7eb570c9",
+            "Description": "Please provide an AMI ID to launch an instance"
+        }
+    }
+}
