@@ -53,10 +53,11 @@ resource "aws_iam_role" "chapter_10_deployer_role" {
             "Sid": "",
             "Effect": "Allow",
             "Principal": {
-                "Service": "codedeploy.amazonaws.com"
+                "Service": "codedeploy.amazonaws.com",
+                "Service": "ecs.amazonaws.com"
             },
             "Action": "sts:AssumeRole"
-      }
+        }
     ]
 }
 EOF
@@ -119,28 +120,51 @@ resource "aws_alb" "chapter_10_alb" {
 }
 
 //Application Load Balancer listener to connect on port 80
-
-resource "aws_alb_listener" "chapter_10_alb_listner" {
+resource "aws_alb_listener" "chapter_10_prod_alb_listner" {
   load_balancer_arn = aws_alb.chapter_10_alb.arn
   port              = 80
   default_action {
-    target_group_arn = aws_alb_target_group.chapter_10_alb_tgt_group.arn
+    target_group_arn = aws_alb_target_group.chapter_10_prod_alb_tgt_group.arn
     type             = "forward"
   }
 }
-
 // Aapplication load balancer target group , to detect EC2 instances running on port 80
-resource "aws_alb_target_group" "chapter_10_alb_tgt_group" {
+resource "aws_alb_target_group" "chapter_10_prod_alb_tgt_group" {
   port        = 80
   target_type = "ip"
   vpc_id      = var.vpc_id
-  name        = "chapter-10-alb-tgt-group"
+  name        = "chapter-10-prod-alb-tgt-group"
   protocol    = "HTTP"
   health_check {
     protocol = "HTTP"
     path     = "/"
   }
 }
+
+resource "aws_alb_listener" "chapter_10_test_alb_listner" {
+  load_balancer_arn = aws_alb.chapter_10_alb.arn
+  port              = 8080
+  default_action {
+    target_group_arn = aws_alb_target_group.chapter_10_test_alb_tgt_group.arn
+    type             = "forward"
+  }
+}
+// Aapplication load balancer target group , to detect EC2 instances running on port 80
+resource "aws_alb_target_group" "chapter_10_test_alb_tgt_group" {
+  port        = 80
+  target_type = "ip"
+  vpc_id      = var.vpc_id
+  name        = "chapter-10-test-alb-tgt-group"
+  protocol    = "HTTP"
+  health_check {
+    protocol = "HTTP"
+    path     = "/"
+  }
+}
+
+
+
+
 
 // Security group for EC2 instance to provide access to http,https and ssh port 
 resource "aws_security_group" "chapter_10_ins_sg" {
@@ -259,7 +283,7 @@ resource "aws_ecs_service" "chapter_10_ecs_service" {
   task_definition = aws_ecs_task_definition.chapter_10_task_definition.arn
   desired_count = 1
   deployment_controller {
-    type = "ECS"
+    type = "CODE_DEPLOY"
   }
   
   network_configuration {
@@ -272,9 +296,9 @@ resource "aws_ecs_service" "chapter_10_ecs_service" {
    weight = 100
    capacity_provider = aws_autoscaling_group.chapter_10_asg.arn
  }*/
- /* load_balancer {
-    target_group_arn = aws_alb_target_group.chapter_10_alb_tgt_group.arn
+  load_balancer {
+    target_group_arn = aws_alb_target_group.chapter_10_prod_alb_tgt_group.arn
     container_name = "chapter_10_aws_code_pipeline_container"
     container_port = "80"
-  }*/
+  }
 }
