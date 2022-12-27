@@ -9,3 +9,6 @@ sudo ./install auto
 service codedeploy-agent start
 rm install
 sudo amazon-linux-extras install java-openjdk11 -y
+sudo yum install -y ecs-init
+sudo service docker start
+sudo service ecs start

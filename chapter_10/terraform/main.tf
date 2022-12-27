@@ -86,9 +86,9 @@ resource "aws_iam_instance_profile" "chapter_10_instance_profile" {
 // EC2 Auto scalling Group 
 resource "aws_autoscaling_group" "chapter_10_asg" {
   name               = "chapter_10_asg"
-  min_size           = 1
-  max_size           = 2
-  desired_capacity   = 2
+  min_size           = 0
+  max_size           = 0
+  desired_capacity   = 0
   availability_zones = ["us-east-1a", "us-east-1b", "us-east-1c"]
   launch_template {
     id      = aws_launch_template.chapter_10_ec2_launch_template.id
@@ -212,21 +212,16 @@ resource "aws_ecs_capacity_provider" "chapter_10_ecs_capacity_provider" {
     auto_scaling_group_arn = aws_autoscaling_group.chapter_10_asg.arn
   }
 }
-/*
-resource "aws_autoscaling_group" "chapter_10_auto_scaling_group" {
-  min_size = 1
-  max_size = 2
-}
-*/
+
 
 
 resource "aws_ecs_cluster_capacity_providers" "chapter_10_ecs_capacity_providers" {
   cluster_name=aws_ecs_cluster.chapter_10_ecs_cluster.name
-  //  capacity_providers = ["FARGATE","FARGATE_SPOT"]
-  capacity_providers = ["FARGATE","FARGATE_SPOT",aws_ecs_capacity_provider.chapter_10_ecs_capacity_provider.name]
+    capacity_providers = ["FARGATE","FARGATE_SPOT"]
+  //capacity_providers = ["FARGATE","FARGATE_SPOT",aws_ecs_capacity_provider.chapter_10_ecs_capacity_provider.name]
   default_capacity_provider_strategy {
-    base = 1
-    weight = 100
+    base = 0
+    weight = 1
     //capacity_provider = aws_ecs_capacity_provider.chapter_10_ecs_capacity_provider.name
     capacity_provider = "FARGATE" 
   }
@@ -247,6 +242,7 @@ resource "aws_ecs_task_definition" "chapter_10_task_definition" {
       cpu       = 512
       memory    = 3072
       essential = true
+      
       portMappings = [
         {
           containerPort = 80
@@ -261,21 +257,24 @@ resource "aws_ecs_service" "chapter_10_ecs_service" {
   name = "chapter_10_ecs_service"
   cluster = aws_ecs_cluster.chapter_10_ecs_cluster.id
   task_definition = aws_ecs_task_definition.chapter_10_task_definition.arn
-  desired_count = 4
+  desired_count = 1
   deployment_controller {
-    type = "CODE_DEPLOY"
+    type = "ECS"
   }
+  
   network_configuration {
+    security_groups = ["sg-d8e07da2"]
     subnets = var.subnets
+    assign_public_ip = true
   }
  /*capacity_provider_strategy {
    base = 1
    weight = 100
    capacity_provider = aws_autoscaling_group.chapter_10_asg.arn
  }*/
-  load_balancer {
+ /* load_balancer {
     target_group_arn = aws_alb_target_group.chapter_10_alb_tgt_group.arn
     container_name = "chapter_10_aws_code_pipeline_container"
     container_port = "80"
-  }
+  }*/
 }
