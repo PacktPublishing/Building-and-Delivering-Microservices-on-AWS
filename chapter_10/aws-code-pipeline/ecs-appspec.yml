@@ -1,0 +1,9 @@
+version: 0.0
+Resources:
+  - TargetService:
+      Type: AWS::ECS::Service
+      Properties:
+        TaskDefinition: "arn:aws:ecs:us-east-1:279522866734:task-definition/chapter_10_task_definition:10"
+        LoadBalancerInfo:
+          ContainerName: "chapter_10_aws_code_pipeline_container"
+          ContainerPort: 80
