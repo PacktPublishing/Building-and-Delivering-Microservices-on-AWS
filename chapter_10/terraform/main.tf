@@ -41,8 +41,8 @@ variable "container_image_uri" {
 /**
 * Code deploy service role for deployment to ECS and load data from S3
 */
-resource "aws_iam_role" "chapter_10_code_deploy_service_role" {
-  name                = "chapter_10_code_deploy_service_role"
+resource "aws_iam_role" "chap_10_code_deploy_service_role" {
+  name                = "chap_10_code_deploy_service_role"
   assume_role_policy = jsonencode({
     "Version": "2012-10-17",
     "Statement": [
@@ -62,32 +62,32 @@ resource "aws_iam_role" "chapter_10_code_deploy_service_role" {
 /**
 * Application Load Balancer to front face traffic for the ECS service
 */ 
-resource "aws_alb" "chapter_10_alb" {
-  name               = "chapter-10-alb"
+resource "aws_alb" "chap_10_alb" {
+  name               = "chap-10-alb"
   load_balancer_type = "application"
-  security_groups    = [aws_security_group.chapter_10_lb_sg.id]
+  security_groups    = [aws_security_group.chap_10_lb_sg.id]
   subnets            = var.subnets
 }
 
 /**
-* Application Load Balancer PROD listener to connect on port 80
+* Application Load Balancer BLUE listener to connect on port 80
 */
-resource "aws_alb_listener" "chapter_10_prod_alb_listner" {
-  load_balancer_arn = aws_alb.chapter_10_alb.arn
+resource "aws_alb_listener" "chap_10_blue_alb_listner" {
+  load_balancer_arn = aws_alb.chap_10_alb.arn
   port              = 80
   default_action {
-    target_group_arn = aws_alb_target_group.chapter_10_prod_alb_tgt_group.arn
+    target_group_arn = aws_alb_target_group.chap_10_blue_alb_tgt_group.arn
     type             = "forward"
   }
 }
 /**
-* Application load balancer PROD target group for ECS
+* Application load balancer BLUE target group for ECS
 */ 
-resource "aws_alb_target_group" "chapter_10_prod_alb_tgt_group" {
+resource "aws_alb_target_group" "chap_10_blue_alb_tgt_group" {
   port        = 80
   target_type = "ip"
   vpc_id      = var.vpc_id
-  name        = "chapter-10-prod-alb-tgt-group"
+  name        = "chap-10-blue-alb-tgt-group"
   protocol    = "HTTP"
   health_check {
     protocol = "HTTP"
@@ -97,13 +97,13 @@ resource "aws_alb_target_group" "chapter_10_prod_alb_tgt_group" {
 
 
 /**
-* Application load balancer TEST target group for ECS
+* Application load balancer GREEN target group for ECS
 */ 
-resource "aws_alb_target_group" "chapter_10_test_alb_tgt_group" {
+resource "aws_alb_target_group" "chap_10_green_alb_tgt_group" {
   port        = 80
   target_type = "ip"
   vpc_id      = var.vpc_id
-  name        = "chapter-10-test-alb-tgt-group"
+  name        = "chap-10-green-alb-tgt-group"
   protocol    = "HTTP"
   health_check {
     protocol = "HTTP"
@@ -116,23 +116,23 @@ resource "aws_alb_target_group" "chapter_10_test_alb_tgt_group" {
 * to test traffic before live.
 *
 */
-resource "aws_alb_listener" "chapter_10_test_alb_listner" {
-  load_balancer_arn = aws_alb.chapter_10_alb.arn
+/*resource "aws_alb_listener" "chap_10_green_alb_listner" {
+  load_balancer_arn = aws_alb.chap_10_alb.arn
   port              = 8080
   default_action {
-    target_group_arn = aws_alb_target_group.chapter_10_test_alb_tgt_group.arn
+    target_group_arn = aws_alb_target_group.chap_10_green_alb_tgt_group.arn
     type             = "forward"
   }
-}
+}*/
 
 /**
 * Security group for Load Balancer to provide access to 
 * http traffic on port 80 and 8080
 *
 */ 
-resource "aws_security_group" "chapter_10_lb_sg" {
+resource "aws_security_group" "chap_10_lb_sg" {
   description = "Security group for load balancer Http access"
-  name        = "chapter_10-load-balancer-security-group"
+  name        = "chap_10-load-balancer-security-group"
   ingress {
     description = "Http access"
     from_port   = 80
@@ -159,18 +159,18 @@ resource "aws_security_group" "chapter_10_lb_sg" {
 *
 * ECS Cluster configuration
 */
-resource "aws_ecs_cluster" "chapter_10_ecs_cluster" {
-  name = "chapter_10_ecs_cluster"
+resource "aws_ecs_cluster" "chap_10_ecs_cluster" {
+  name = "chap_10_ecs_cluster"
   tags = {
-  resource-group="chapter_10"
+  resource-group="chap_10"
   }
 }
 
 /*
 * ECS Cluster capacity providers, set to AWS FARGATE
 */
-resource "aws_ecs_cluster_capacity_providers" "chapter_10_ecs_capacity_providers" {
-  cluster_name=aws_ecs_cluster.chapter_10_ecs_cluster.name
+resource "aws_ecs_cluster_capacity_providers" "chap_10_ecs_capacity_providers" {
+  cluster_name=aws_ecs_cluster.chap_10_ecs_cluster.name
     capacity_providers = ["FARGATE","FARGATE_SPOT"]
 
   default_capacity_provider_strategy {
@@ -183,8 +183,8 @@ resource "aws_ecs_cluster_capacity_providers" "chapter_10_ecs_capacity_providers
 /**
 *   ECS Task definition to define containers mage, port mapping, image and FARGATE capabilities
 */
-resource "aws_ecs_task_definition" "chapter_10_task_definition" {
-  family = "chapter_10_task_definition"
+resource "aws_ecs_task_definition" "chap_10_task_definition" {
+  family = "chap_10_task_definition"
   requires_compatibilities = ["FARGATE"]
   network_mode = "awsvpc"
   cpu = 512
@@ -192,7 +192,7 @@ resource "aws_ecs_task_definition" "chapter_10_task_definition" {
   execution_role_arn = "arn:aws:iam::279522866734:role/ecsTaskExecutionRole"
   container_definitions = jsonencode([
     {
-      name      = "chapter_10_aws_code_pipeline_container"
+      name      = "chap_10_aws_code_pipeline_container"
       image     = var.container_image_uri
       cpu       = 512
       memory    = 3072
@@ -210,24 +210,24 @@ resource "aws_ecs_task_definition" "chapter_10_task_definition" {
 /**
 * ECS Service configuration to run the tasks behind the load balancer and CODE_DEPLOY controller
 */
-resource "aws_ecs_service" "chapter_10_ecs_service" {
-  name = "chapter_10_ecs_service"
-  cluster = aws_ecs_cluster.chapter_10_ecs_cluster.id
-  task_definition = aws_ecs_task_definition.chapter_10_task_definition.arn
+resource "aws_ecs_service" "chap_10_ecs_service" {
+  name = "chap_10_ecs_service"
+  cluster = aws_ecs_cluster.chap_10_ecs_cluster.id
+  task_definition = aws_ecs_task_definition.chap_10_task_definition.arn
   desired_count = 1
   deployment_controller {
     type = "CODE_DEPLOY"
   }
   
   network_configuration {
-    security_groups = [aws_security_group.chapter_10_lb_sg.id]
+    security_groups = [aws_security_group.chap_10_lb_sg.id]
     subnets = var.subnets
     assign_public_ip = true
   }
 
   load_balancer {
-    target_group_arn = aws_alb_target_group.chapter_10_prod_alb_tgt_group.arn
-    container_name = "chapter_10_aws_code_pipeline_container"
+    target_group_arn = aws_alb_target_group.chap_10_green_alb_tgt_group.arn
+    container_name = "chap_10_aws_code_pipeline_container"
     container_port = "80"
   }
 }
@@ -236,7 +236,7 @@ resource "aws_ecs_service" "chapter_10_ecs_service" {
 /**
 * AWS CODE DEPLOY Application for deployment to ECS
 */
-resource "aws_codedeploy_app" "chapter_10_code_deploy_app" {
-  name = "chapter_10_code_deploy_app"
+resource "aws_codedeploy_app" "chap_10_code_deploy_app" {
+  name = "chap_10_code_deploy_app"
   compute_platform = "ECS"
 }
