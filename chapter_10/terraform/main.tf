@@ -70,9 +70,9 @@ resource "aws_alb" "chap_10_alb" {
 }
 
 /**
-* Application Load Balancer BLUE listener to connect on port 80
+* Application Load Balancer listener to connect on port 80
 */
-resource "aws_alb_listener" "chap_10_blue_alb_listner" {
+resource "aws_alb_listener" "chap_10_alb_listner" {
   load_balancer_arn = aws_alb.chap_10_alb.arn
   port              = 80
   default_action {
