@@ -3,7 +3,7 @@ Resources:
   - TargetService:
       Type: AWS::ECS::Service
       Properties:
-        TaskDefinition: "arn:aws:ecs:us-east-1:279522866734:task-definition/chap_10_task_definition:4"
+        TaskDefinition: "arn:aws:ecs:us-east-1:279522866734:task-definition/chapter-10_task_definition:2"
         LoadBalancerInfo:
-          ContainerName: "chap_10_aws_code_pipeline_container"
+          ContainerName: "chapter-10_aws_code_pipeline_container"
           ContainerPort: 80
