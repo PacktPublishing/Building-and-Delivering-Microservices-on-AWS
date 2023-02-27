@@ -1,0 +1,19 @@
+version: 0.0
+os: linux
+files:
+  - source: /
+    destination: /home/root/
+file_exists_behavior: OVERWRITE
+permissions:
+  - object: /
+    pattern: "**"
+    owner: root
+    group: root
+    mode: 755
+hooks:
+  ApplicationStart:
+    - location: start.sh
+      timeout: 100
+  ApplicationStop:
+    - location: stop.sh
+      timeout: 100
