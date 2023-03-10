@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/name: aws-code-pipeline
+    app.kubernetes.io/instance: aws-code-pipeline-instance
+    app.kubernetes.io/version: "1.0.0"
+    app.kubernetes.io/managed-by: kubectl
+  name: aws-code-pipeline-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: aws-code-pipeline
+  template:
+    metadata:
+      labels:
+        app: aws-code-pipeline
+    spec:
+      containers:
+        - image: 279522866734.dkr.ecr.us-east-1.amazonaws.com/packt-ecr-repo:TAG_VERSION
+          imagePullPolicy: Always
+          name: aws-code-pipeline
+          ports:
+            - containerPort: 80

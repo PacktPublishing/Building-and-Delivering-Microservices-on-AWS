@@ -17,13 +17,13 @@ phases:
       - mvn package
       - ls
       - ls target/surefire-reports
-reports:
-  arn:aws:codebuild:us-east-1:279522866734:report-group/aws-code-deploy-test-report:
-    base-directory: 'target/surefire-reports'
-    files:  
-        - TEST-com.packt.aws.books.pipeline.AwsCodePipelineApplicationTests.xml
-    discard-paths: yes
-    file-format: JUNITXML
+#reports:
+#  arn:aws:codebuild:us-east-1:279522866734:report-group/aws-code-deploy-test-report:
+#    base-directory: 'target/surefire-reports'
+#    files:  
+#        - TEST-com.packt.aws.books.pipeline.AwsCodePipelineApplicationTests.xml
+#    discard-paths: yes
+#    file-format: JUNITXML
 artifacts:
   files:
     - target/aws-code-pipeline*.jar

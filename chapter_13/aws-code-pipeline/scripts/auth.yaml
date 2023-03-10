@@ -1,0 +1,30 @@
+{
+  "kind": "ConfigMap",
+  "apiVersion": "v1",
+  "metadata": {
+    "name": "aws-auth",
+    "namespace": "kube-system",
+    "uid": "e2151900-1900-42df-a5c1-1a32d10281d9",
+    "resourceVersion": "302268",
+    "creationTimestamp": "2023-03-04T00:21:03Z",
+    "managedFields": [
+      {
+        "manager": "vpcLambda",
+        "operation": "Update",
+        "apiVersion": "v1",
+        "time": "2023-03-04T00:21:03Z",
+        "fieldsType": "FieldsV1",
+        "fieldsV1": {
+          "f:data": {
+            ".": {},
+            "f:mapRoles": {}
+          }
+        }
+      }
+    ]
+  },
+  "data": {
+    "mapRoles": "- groups:\n  - system:bootstrappers\n  - system:nodes\n  rolearn: arn:aws:iam::279522866734:role/eks_node_role\n  username: system:node:{{EC2PrivateDNSName}}\n"
+  }
+}
+

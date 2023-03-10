@@ -1,0 +1,10 @@
+*/aws-lambda-pipeline/.mvn*
+*/terraform/terraform.tfstate*
+*/aws-code-pipeline/target*
+*/terraform/.terraform*
+.DS_Store
+target/*
+*/target/*
+*/.vscode*
+*/*/.DS_Store
+

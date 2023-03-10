@@ -80,7 +80,7 @@ resource "aws_iam_role" "chapter-12_code_build_service_role" {
 * Code_build_project to build and deploy lambda function.
 */
 resource "aws_codebuild_project" "chapter-12_code_build" {
-  name         = "chapter-12_code_maven_build"
+  name         = "chapter-12_code_build"
   service_role = aws_iam_role.chapter-12_code_build_service_role.arn
   description  = "Code build project to run the maven build and generate java artifacts"
   artifacts {

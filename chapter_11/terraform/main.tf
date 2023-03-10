@@ -488,14 +488,14 @@ resource "aws_alb_target_group" "chapter_11_test_env_alb_tgt_group" {
   }
 }*/
 
-resource "aws_codedeploy_app" "chapter_11_test_env_env_app" {
+resource "aws_codedeploy_app" "chapter_11_test_env_app" {
   compute_platform = "Server"
-  name             = "chapter_11_test_env_env_app"
+  name             = "chapter_11_test_env_app"
 }
 
-resource "aws_codedeploy_deployment_group" "chapter_11_test_env_env_deploy_group" {
-  deployment_group_name = "chapter_11_test_env_env_deploy_group"
-  app_name              = aws_codedeploy_app.chapter_11_test_env_env_app.name
+resource "aws_codedeploy_deployment_group" "chapter_11_test_env_deploy_group" {
+  deployment_group_name = "chapter_11_test_env_deploy_group"
+  app_name              = aws_codedeploy_app.chapter_11_test_env_app.name
   service_role_arn      = aws_iam_role.chapter-11_code_deploy_service_role.arn
   autoscaling_groups    = [aws_autoscaling_group.chapter_11_test_env_asg.name]
   deployment_style {

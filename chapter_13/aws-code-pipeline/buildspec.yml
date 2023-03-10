@@ -1,0 +1,30 @@
+version: 0.2
+phases:
+  install:
+    commands:
+      - echo Logging in to Amazon ECR...
+      - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 279522866734.dkr.ecr.us-east-1.amazonaws.com
+      - curl -sS -o aws-iam-authenticator https://amazon-eks.s3.us-west-2.amazonaws.com/1.19.6/2021-01-05/bin/linux/amd64/aws-iam-authenticator
+      - curl -sS -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.20.4/2021-04-12/bin/linux/amd64/kubectl
+      - chmod +x ./kubectl ./aws-iam-authenticator
+      - export PATH=$PWD/:$PATH
+  pre_build:
+      commands:
+        - TAG="$(date +%Y-%m-%d.%H.%M.%S)"
+        - export KUBECONFIG=$HOME/.kube/config
+  build:
+    commands:
+      - aws eks update-kubeconfig --name chap-14-eks-cluster --region us-east-1
+      - echo 'Updated KubeCtl information.'
+      - mvn clean install
+      - cp target/aws-code-pipeline*.jar .
+      - echo 'Building Docker Image'
+      - docker build -t aws-code-pipeline:$TAG .
+      - docker tag aws-code-pipeline:$TAG 279522866734.dkr.ecr.us-east-1.amazonaws.com/packt-ecr-repo:$TAG
+  post_build:
+    commands:
+      - docker push 279522866734.dkr.ecr.us-east-1.amazonaws.com/packt-ecr-repo:$TAG
+      - sed -i "s/TAG_VERSION/$TAG/g" deployment.yml
+      - cat deployment.yml
+      - kubectl apply -f deployment.yaml
+      - kubectl rollout restart -f deployment.yaml
