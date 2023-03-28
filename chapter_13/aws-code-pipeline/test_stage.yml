@@ -1,0 +1,11 @@
+version: 0.2
+phases:
+  pre_build:
+      commands:
+        - chmod +x ./test.sh
+  build:
+    commands:
+      - ./test.sh
+  post_build:
+    commands:
+      - echo 'Application deployment completed.'
