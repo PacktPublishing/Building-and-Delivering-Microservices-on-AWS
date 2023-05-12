@@ -50,16 +50,10 @@ Lambda deployment.
 Chapter 13, Automated Deployment to an EKS Cluster, focuses on understanding Kubernetes and
 learning about the Elastic Kubernetes Service (EKS) provided by AWS and automated application
 deployment to an EKS cluster using CodePipeline.
-Chapter 14, Extending CodePipeline Beyond AWS, focuses on extending AWS CodePipeline beyond
-AWS-related infrastructure and services. In this chapter, you will learn to integrate CodePipeline with
-Bitbucket and Jenkins and deploy to instances hosted outside AWS.
-Chapter 15, Appendix, focuses on creating Identity and Access Management (IAM) users and tools
-needed for the application development such as Docker Desktop, Git, and Maven, which are important
-but not part of the core chapters.
+### Chapter 14, Extending CodePipeline Beyond AWS
+####### Focuses on extending AWS CodePipeline beyond AWS-related infrastructure and services. In this chapter, you will learn to integrate CodePipeline with Bitbucket and Jenkins and deploy to instances hosted outside AWS.
+### Chapter 15, Appendix,
+####### Focuses on creating Identity and Access Management (IAM) users and tools needed for the application development such as Docker Desktop, Git, and Maven, which are important but not part of the core chapters.
 
 ## Download the example code files
-You can download the example code files for this book from GitHub at https://github.com/
-PacktPublishing/Delivering-Microservices-with-AWS. If there’s an update to the
-code, it will be updated in the GitHub repository.
-We also have other code bundles from our rich catalog of books and videos available at https://
-github.com/PacktPublishing/. Check them out!
+You can download the example code files for this book from GitHub at https://github.com/PacktPublishing/Delivering-Microservices-with-AWS. If there’s an update to the code, it will be updated in the GitHub repository.
