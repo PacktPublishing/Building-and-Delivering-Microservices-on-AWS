@@ -8,6 +8,13 @@ Terraform directory conatins the terraform template to create the infrastructure
 * Use `terraform plan` to see what all resources will be created using terraform.
 * Use `terraform apply --auto-approve` to create the terraform resources in your AWS account.
 * Use `terraform destroy --auto-approve` to delete the resources managed by the terraform in your AWS account.
+* To create the identity mapping use the command `eksctl create iamidentitymapping \
+    --cluster chap-14-eks-cluster \
+    --region us-east-1 \
+    --arn arn:aws:iam::xxxxxxxxxxxxx:role/chap-14-codebuild-eks-role \
+    --group system:masters \
+    --no-duplicate-arns \
+    --username chap-14-codebuild-eks-role`
 
 ### How to build source code
 Use `mvn clean install` to build the source code. 

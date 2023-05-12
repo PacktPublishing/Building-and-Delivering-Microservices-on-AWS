@@ -6,7 +6,7 @@ aws ecr get-login-password --region us-east-1 | docker login --username AWS --pa
 eksctl create iamidentitymapping \
     --cluster chap-14-eks-cluster \
     --region us-east-1 \
-    --arn arn:aws:iam::279522866734:role/chap-14-codebuild-eks-role \
+    --arn arn:aws:iam::xxxxxxxxxxxxx:role/chap-14-codebuild-eks-role \
     --group system:masters \
     --no-duplicate-arns \
     --username chap-14-codebuild-eks-role
@@ -15,7 +15,7 @@ eksctl create iamidentitymapping \
 eksctl create iamidentitymapping \
     --cluster chap-14-eks-cluster \
     --region us-east-1 \
-    --arn arn:aws:iam::279522866734:user/console_user \
+    --arn arn:aws:iam::xxxxxxxxxxxxxxx:user/console_user \
     --group system:masters \
     --no-duplicate-arns \
     --username console_user
