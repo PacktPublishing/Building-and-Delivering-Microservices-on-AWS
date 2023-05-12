@@ -1,2 +1,1 @@
-# Delivering-Microservices-with-AWS-
-Delivering Microservices with AWS, Published by Packt
+# Delivering Microservices with AWS: Master software architecture patterns to develop and deliver microservices to AWS Cloud
