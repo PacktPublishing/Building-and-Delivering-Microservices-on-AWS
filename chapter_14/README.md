@@ -1,6 +1,5 @@
-## Chapter 11 : Setting Up CodePipeline
-This chapter explains what is code pipeline and how it can help us to orcharatetrate other aws services to set up continuous development and delivery of the software. This chapter covers how AWS CodeCommit , CodeBuild and CodeDeploy services create a pipeline to deliver automated software releases.
-
+## Chapter 14: Extending CodePipeline Beyond AWS
+This chapter focused on extending the AWS CodePipeline beyond AWS related infrastructure and services. In this chapter you will learn to integrate code pipeline with Git hub, Bit bucket or other git based remote repositories. This chapter also explains how you can set up to deploy on premises servers with the help of AWS code pipeline.
 
 ## Code action
 

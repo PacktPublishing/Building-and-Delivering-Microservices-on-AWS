@@ -1,5 +1,5 @@
-## Chapter 11 : Setting Up CodePipeline
-This chapter explains what is code pipeline and how it can help us to orcharatetrate other aws services to set up continuous development and delivery of the software. This chapter covers how AWS CodeCommit , CodeBuild and CodeDeploy services create a pipeline to deliver automated software releases.
+## Chapter 13 Automated Deployment to an EKS Cluster
+This chapter focused on understanding Kubernetes and learning about the Elastic Kubernetes service  provided by AWS. In this chapter you will learn about Kubenetes and EKS architecture and different configuration files. This chapter also explains how you can set up CodePipeline to deploy to EKS cluster.
 
 
 ## Code action
